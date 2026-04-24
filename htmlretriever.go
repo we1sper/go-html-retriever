@@ -84,6 +84,19 @@ func (n *EnhancedNode) GetElementsByClassName(classes ...string) *EnhancedNodes 
 	return next
 }
 
+func (n *EnhancedNode) Filter(filter func(node *EnhancedNode) bool) *EnhancedNodes {
+	next := &EnhancedNodes{_nodes: make([]*EnhancedNode, 0)}
+
+	DeepFirstSearch(n._node, func(node *html.Node) bool {
+		if filter(NewEnhancedNode(node)) {
+			next._nodes = append(next._nodes, NewEnhancedNode(node))
+		}
+		return true
+	})
+
+	return next
+}
+
 func (n *EnhancedNode) GetText() (text string, present bool) {
 	if n._node != nil {
 		for child := n._node.FirstChild; child != nil; child = child.NextSibling {
@@ -199,6 +212,16 @@ func (n *EnhancedNodes) GetElementsByClassName(classes ...string) *EnhancedNodes
 		node.GetElementsByClassName(classes...).ForEach(func(n *EnhancedNode) {
 			next._nodes = append(next._nodes, n.Copy())
 		})
+	}
+
+	return next
+}
+
+func (n *EnhancedNodes) Filter(filter func(node *EnhancedNode) bool) *EnhancedNodes {
+	next := &EnhancedNodes{_nodes: make([]*EnhancedNode, 0)}
+
+	for _, node := range n._nodes {
+		next._nodes = append(next._nodes, node.Filter(filter)._nodes...)
 	}
 
 	return next

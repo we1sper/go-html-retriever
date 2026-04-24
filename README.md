@@ -73,12 +73,14 @@ On `*EnhancedNode`:
 - `GetElementById(id string) *EnhancedNode` returns the first node with the specified id.
 - `GetElementsByTagName(tag string) *EnhancedNodes` returns all nodes with the specified tag name.
 - `GetElementsByClassName(classes ...string) *EnhancedNodes` returns all nodes that contain all specified classes.
+- `Filter(filter func(*EnhancedNode) bool) *EnhancedNodes` returns all nodes in the subtree that satisfy the filter function.
 
 On `*EnhancedNodes`:
 
 - `GetElementById(id string) *EnhancedNode` returns the first node with the specified id.
 - `GetElementsByTagName(tag string) *EnhancedNodes` returns all nodes with the specified tag name.
 - `GetElementsByClassName(classes ...string) *EnhancedNodes` returns all nodes that contain all specified classes.
+- `Filter(filter func(*EnhancedNode) bool) *EnhancedNodes` returns all nodes in the subtree that satisfy the filter function.
 - `Len() int` returns the number of nodes in the list wrapper.
 - `First() *EnhancedNode` returns the first node in the list wrapper.
 - `Last() *EnhancedNode` returns the last node in the list wrapper.
